@@ -10,8 +10,6 @@ namespace PonyligaWebsite.Models
 {
     public class Team
     {
-
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public int id { get; set; }
         public string club { get; set; }
         public string name { get; set; }
@@ -22,9 +20,7 @@ namespace PonyligaWebsite.Models
         public int? groupId { get; set; }
         public Group group { get; set; }
 
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public int totalScore { get; set; }
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string game { get; set; }
 
         public ICollection<Pony> ponies { get; set; }

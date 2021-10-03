@@ -11,8 +11,6 @@ namespace PonyligaWebsite.Models
 {
     public class Pony
     {
-
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public int id { get; set; }
         public String name { get; set; }
         public String race { get; set; }

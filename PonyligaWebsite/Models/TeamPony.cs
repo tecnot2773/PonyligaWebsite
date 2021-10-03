@@ -10,7 +10,6 @@ namespace PonyligaWebsite.Models
 {
     public class TeamPony
     {
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public int teamId { get; set; }
         public Team team { get; set; }
         public int ponyId { get; set; }

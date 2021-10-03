@@ -12,7 +12,6 @@ namespace PonyligaWebsite.Models
 {
     public class TeamMember
     {
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public int id { get; set; }
         public String firstName { get; set; }
         public String surName { get; set; }

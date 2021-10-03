@@ -13,8 +13,6 @@ namespace PonyligaWebsite.Models
 {
     public class Result
     {
-
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public int id { get; set; }
         public String gameDate { get; set; }
         public String game { get; set; }
