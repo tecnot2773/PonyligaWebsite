@@ -1,0 +1,112 @@
+﻿@page "/Flaggenrennen"
+
+@using PonyligaWebsite.Models
+@using System.Threading;
+@inject Services.IApiClient apiclient
+
+<h1>Flaggenrennen</h1>
+
+<p>Ergebnisse vom Flaggenrennen:</p>
+
+@if (IsLoading)
+{
+	<p><em>Lade Ergebnisse...</em></p>
+}
+else if (!string.IsNullOrEmpty(Error) || data == null)
+{
+	<p class="alert alert-danger">
+	 Fehler beim Laden: @Error
+	</p>
+}
+else
+{
+	<p>
+	 <button class="btn btn-primary" @onclick="RefreshData">
+	  Neuladen
+	 </button>
+		@lastRefresh.ToString("dd.MM.yyyy HH:mm:ss")
+	</p>
+	<table class="table">
+	 <thead>
+	  <tr>
+	   <th>Platzierung</th>
+	   <th>Team</th>
+	   <th>Punkte</th>
+	   <th>Zeit</th>
+	   <th>Strafsekunden</th>
+	  </tr>
+	 </thead>
+	 <tbody>
+
+			@foreach (var team in data)
+			{
+				
+
+				@foreach (var points in team.results.OrderByDescending(d => d.position))
+				{
+					@if (points.game == "Flaggenrennen")
+					{						
+										
+
+						<tr>
+						<td>@points.position</td>
+						<td>@team.name</td>
+						<td>@points.score.ToString()</td>
+						<td>@points.time</td>
+						<td>@points.penaltyTime</td>
+					</tr>
+					}
+
+		//}
+				
+				}
+
+			}
+
+
+		 
+
+	 </tbody>
+	</table>
+}
+
+@code {
+	private bool IsLoading = false;
+	private Team[] data;
+	private DateTime lastRefresh;
+	private string Error = null;
+
+	protected override async Task OnInitializedAsync()
+	{
+		await RefreshData();
+	}
+
+	async Task RefreshData()
+	{
+		try
+		{
+			IsLoading = true;
+			Error = null;
+			data = await apiclient.GetResultSummary();
+			lastRefresh = DateTime.Now;
+			await InvokeAsync(() =>
+			{
+				StateHasChanged();
+			});
+		}
+		catch (Exception ex)
+		{
+			Error = ex.ToString();
+		}
+		finally
+		{
+			IsLoading = false;
+		}
+	}
+
+
+
+}
+
+
+
